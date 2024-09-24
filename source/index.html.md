@@ -34,6 +34,7 @@ Welcome to the GoTable API! You can use our API to access GoTable API endpoints,
 curl "https://gotable.app/api/v1/restaurants" \
   -H "Authorization: Bearer YOUR_API_KEY_HERE"
 ```
+
 ```ruby
 require 'gotable'
 
@@ -47,7 +48,7 @@ GoTable uses API keys to allow access to the API. You can register a new GoTable
 
 <aside class="notice">GoTable expects the API key to be included in all API requests to the server in a header that looks like the following:
 
-`Authorization: Bearer YOUR_API_KEY_HERE`</aside>
+ <code>Authorization: Bearer YOUR_API_KEY_HERE</code> </aside>
 
 # Restaurants
 
@@ -94,7 +95,7 @@ curl "https://gotable.app/api/v1/restaurants" \
 }
 ```
 
-This endpoint retrieves all restaurants registered to your personal API Key.
+This endpoint retrieves all restaurants registered to your API Key.
 
 ### HTTP Request
 
@@ -102,10 +103,10 @@ This endpoint retrieves all restaurants registered to your personal API Key.
 
 ### Query Parameters
 
-Parameter | Default | Description
---------- | ------- | -----------
-page | 1 | The page number for pagination
-per_page | 20 | Number of restaurants per page
+| Parameter | Default | Description                    |
+| --------- | ------- | ------------------------------ |
+| page      | 1       | The page number for pagination |
+| per_page  | 20      | Number of restaurants per page |
 
 ## Get a Specific Restaurant
 
@@ -140,9 +141,9 @@ This endpoint retrieves a specific restaurant.
 
 ### URL Parameters
 
-Parameter | Description
---------- | -----------
-restaurantUid* | The unique identifier of the restaurant
+| Parameter       | Description                             |
+| --------------- | --------------------------------------- |
+| restaurantUid\* | The unique identifier of the restaurant |
 
 ## Create a New Restaurant
 
@@ -192,19 +193,19 @@ This endpoint creates a new restaurant.
 
 ### Request Parameters
 
-Parameter | Type | Default | Description 
---------- | ---- | ------- | -----------
-name* | string | | The name of the restaurant
-email* | string | | The email address of the restaurant
-telephone | string | | The telephone number of the restaurant
-private_feedback_url | string | | URL for private feedback (must start with http:// or https://)
-reservation_follow_up_setting* | string | | Must be one of: 'always', 'local', 'self', or 'never'
-minimum_guests | integer | | Minimum number of guests allowed (must be less than or equal to maximum_guests)
-maximum_guests | integer | | Maximum number of guests allowed
-realtime_setting* | string | 'off' | Must be one of: 'off', 'availability', or 'capacity'
-realtime_reject_setting* | string | 'accept'| Must be one of: 'accept' or 'reject'
-country_code* | string | 'NL' | Two-letter country code
-maintainer_ids | array | | Array of maintainer IDs
+| Parameter                       | Type    | Default  | Description                                                                     |
+| ------------------------------- | ------- | -------- | ------------------------------------------------------------------------------- |
+| name\*                          | string  |          | The name of the restaurant                                                      |
+| email\*                         | string  |          | The email address of the restaurant                                             |
+| telephone                       | string  |          | The telephone number of the restaurant                                          |
+| private_feedback_url            | string  |          | URL for private feedback (must start with http:// or https://)                  |
+| reservation_follow_up_setting\* | string  | 'never'  | Must be one of: 'always', 'local', 'self', or 'never'                           |
+| minimum_guests                  | integer |          | Minimum number of guests allowed (must be less than or equal to maximum_guests) |
+| maximum_guests                  | integer |          | Maximum number of guests allowed                                                |
+| realtime_setting\*              | string  | 'off'    | Must be one of: 'off', 'availability', or 'capacity'                            |
+| realtime_reject_setting\*       | string  | 'accept' | Must be one of: 'accept' or 'reject'                                            |
+| country_code\*                  | string  | 'NL'     | Two-letter country code                                                         |
+| maintainer_ids                  | array   |          | Array of maintainer IDs                                                         |
 
 # Availability
 
@@ -255,7 +256,7 @@ This endpoint retrieves the availability for a specific restaurant over a given 
 
 | Parameter | Description                                           |
 | --------- | ----------------------------------------------------- |
-| restaurantUid\*      | The ID of the restaurant to retrieve availability for |
+| ID\*      | The ID of the restaurant to retrieve availability for |
 
 ### Query Parameters
 
@@ -263,28 +264,26 @@ This endpoint retrieves the availability for a specific restaurant over a given 
 | --------------- | -------- | ------------------------------------------------ |
 | from            | today    | Start date for availability (format: YYYY-MM-DD) |
 | till            | tomorrow | End date for availability (format: YYYY-MM-DD)   |
-
-<aside class="notice"> Note: If only the from parameter is provided, the API will return availability for that specific day only. 
-If only the till parameter is provided, it will return availability from the current date up to the till date. </aside>
+| restaurantUid\* |          | The unique identifier of the restaurant          |
 
 ### Response Structure
 
 The response includes the following main elements:
 
-- `from`: The start date of the requested availability range
-- `till`: The end date of the requested availability range
-- `availabilities`: An array of availability objects, one for each date in the range
+-   `from`: The start date of the requested availability range
+-   `till`: The end date of the requested availability range
+-   `availabilities`: An array of availability objects, one for each date in the range
 
 Each availability object contains:
 
-- `date`: The date for this availability entry
-- `timeslots`: An object where each key is a time slot (in "HH:MM" format) and each value is an array with two elements:
-  - The first element is the minimum number of seats available
-  - The second element is the maximum number of seats available
+-   `date`: The date for this availability entry
+-   `timeslots`: An object where each key is a time slot (in "HH:MM" format) and each value is an array with two elements:
+    -   The first element is the minimum number of seats available
+    -   The second element is the maximum number of seats available
 
-# Bookings
+# Reservations
 
-## Get Booking
+## Get Reservation
 
 ```shell
 curl "https://gotable.app/api/v1/restaurants/129946/booking/12345" \
@@ -295,14 +294,14 @@ This endpoint retrieves information about a specific booking.
 
 ### HTTP Request
 
-`GET https://gotable.app/api/v1/<restaurantUid>/booking/<uid>`
+`GET https://gotable.app/api/v1/<restaurantUid>/reservation/<uid>`
 
 ### URL Parameters
 
-Parameter | Description
---------- | -----------
-restaurantUid* | The unique identifier of the restaurant
-uid* | The unique identifier of the booking
+| Parameter       | Description                             |
+| --------------- | --------------------------------------- |
+| restaurantUid\* | The unique identifier of the restaurant |
+| uid\*           | The unique identifier of the booking    |
 
 ## Create Booking
 
@@ -330,9 +329,9 @@ This endpoint creates a new booking for the restaurant.
 
 ### URL Parameters
 
-Parameter | Description
---------- | -----------
-restaurantUid* | The unique identifier of the restaurant
+| Parameter       | Description                             |
+| --------------- | --------------------------------------- |
+| restaurantUid\* | The unique identifier of the restaurant |
 
 ## Update Booking
 
@@ -355,10 +354,10 @@ This endpoint updates the details of a reservation.
 
 ### URL Parameters
 
-Parameter | Description
---------- | -----------
-restaurantUid* | The unique identifier of the restaurant
-uid* | The unique identifier of the booking
+| Parameter       | Description                             |
+| --------------- | --------------------------------------- |
+| restaurantUid\* | The unique identifier of the restaurant |
+| uid\*           | The unique identifier of the booking    |
 
 ## Cancel Reservation
 
@@ -375,12 +374,10 @@ This endpoint cancels a reservation.
 
 ### URL Parameters
 
-Parameter | Description
---------- | -----------
-restaurantUid* | The unique identifier of the restaurant
-uid* | The unique identifier of the booking
-
-# Areas
+| Parameter       | Description                             |
+| --------------- | --------------------------------------- |
+| restaurantUid\* | The unique identifier of the restaurant |
+| uid\*           | The unique identifier of the booking    |
 
 # Tables
 
@@ -399,24 +396,23 @@ This endpoint retrieves the list of tables for a restaurant.
 
 ### URL Parameters
 
-Parameter | Description
---------- | -----------
-restaurantUid* | The unique identifier of the restaurant
-
+| Parameter       | Description                             |
+| --------------- | --------------------------------------- |
+| restaurantUid\* | The unique identifier of the restaurant |
 
 # Errors
 
 The GoTable API uses the following error codes:
 
-Error Code | Meaning
----------- | -------
-400 | Bad Request -- Your request is invalid.
-401 | Unauthorized -- Your API key is wrong.
-403 | Forbidden -- The requested resource is not accessible to you.
-404 | Not Found -- The specified resource could not be found.
-405 | Method Not Allowed -- You tried to access a resource with an invalid method.
-406 | Not Acceptable -- You requested a format that isn't json.
-410 | Gone -- The resource requested has been removed from our servers.
-429 | Too Many Requests -- You're requesting too many resources! Slow down!
-500 | Internal Server Error -- We had a problem with our server. Try again later.
-503 | Service Unavailable -- We're temporarily offline for maintenance. Please try again later.
+| Error Code | Meaning                                                                                   |
+| ---------- | ----------------------------------------------------------------------------------------- |
+| 400        | Bad Request -- Your request is invalid.                                                   |
+| 401        | Unauthorized -- Your API key is wrong.                                                    |
+| 403        | Forbidden -- The requested resource is not accessible to you.                             |
+| 404        | Not Found -- The specified resource could not be found.                                   |
+| 405        | Method Not Allowed -- You tried to access a resource with an invalid method.              |
+| 406        | Not Acceptable -- You requested a format that isn't json.                                 |
+| 410        | Gone -- The resource requested has been removed from our servers.                         |
+| 429        | Too Many Requests -- You're requesting too many resources! Slow down!                     |
+| 500        | Internal Server Error -- We had a problem with our server. Try again later.               |
+| 503        | Service Unavailable -- We're temporarily offline for maintenance. Please try again later. |
