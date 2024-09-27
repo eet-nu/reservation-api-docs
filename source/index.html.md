@@ -30,7 +30,7 @@ Welcome to the GoTable API! You can use our API to access GoTable API endpoints,
 > To authorize, use this code:
 
 ```shell
-# With shell, you have to pass the correct header with each request
+# With shell, you have to pass the correct header with each request:
 curl "https://gotable.app/api/v1/restaurants" \
   -H "Authorization: Bearer YOUR_API_KEY_HERE"
 ```
@@ -253,17 +253,19 @@ This endpoint retrieves the availability for a specific restaurant over a given 
 
 ### URL Parameters
 
-Parameter | Description
---------- | -----------
-ID* | The ID of the restaurant to retrieve availability for
+| Parameter | Description                                           |
+| --------- | ----------------------------------------------------- |
+| restaurantUid\*      | The ID of the restaurant to retrieve availability for |
 
 ### Query Parameters
 
-Parameter | Default | Description
---------- | ------- | -----------
-from | today | Start date for availability (format: YYYY-MM-DD)
-till | tomorrow | End date for availability (format: YYYY-MM-DD)
-restaurantUid* | | The unique identifier of the restaurant
+| Parameter       | Default  | Description                                      |
+| --------------- | -------- | ------------------------------------------------ |
+| from            | today    | Start date for availability (format: YYYY-MM-DD) |
+| till            | tomorrow | End date for availability (format: YYYY-MM-DD)   |
+
+<aside class="notice"> Note: If only the from parameter is provided, the API will return availability for that specific day only. 
+If only the till parameter is provided, it will return availability from the current date up to the till date. </aside>
 
 ### Response Structure
 
