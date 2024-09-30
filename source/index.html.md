@@ -48,7 +48,7 @@ GoTable uses API keys to allow access to the API. You can register a new GoTable
 
 <aside class="notice">GoTable expects the API key to be included in all API requests to the server in a header that looks like the following:
 
- <code>Authorization: Bearer YOUR_API_KEY_HERE</code> </aside>
+<code>Authorization: Bearer YOUR_API_KEY_HERE</code> </aside>
 
 # Restaurants
 
@@ -120,16 +120,13 @@ curl "https://gotable.app/api/v1/restaurants/129946" \
 ```json
 {
   "id": 129946,
-  "name": "Restaurant name",
-  "telephone": "+31 6 23 45 67 89",
-  "email": "info@gotable.nl",
-  "street": "Brugstraat",
-  "zipcode": "6136 AC",
-  "street_number": "77",
-  "city": "geleen",
-  "country": "The Netherlands",
-  "latitude": 50.9887764,
-  "longitude": 5.8487702
+  "name": "Testorant",
+  "telephone": "+31 6 28 79 87 78",
+  "email": "John@doe.nl",
+  "street": "Brugstraat 77",
+  "zipcode": "6131 AC",
+  "city": "Sittard",
+  "country": "The Netherlands"
 }
 ```
 
@@ -141,9 +138,9 @@ This endpoint retrieves a specific restaurant.
 
 ### URL Parameters
 
-| Parameter       | Description                             |
-| --------------- | --------------------------------------- |
-| restaurantUid\* | The unique identifier of the restaurant |
+| Parameter       | Description                     |
+| --------------- | ------------------------------- |
+| restaurantUid\* | The unique id of the restaurant |
 
 ## Create a New Restaurant
 
@@ -220,30 +217,51 @@ curl "https://gotable.app/api/v1/restaurants/129946/availability?from=2024-10-29
 
 ```json
 {
-  "from": "2024-10-29",
-  "till": "2024-11-01",
-  "availabilities": [
+  "from":"2024-09-18",
+  "till":"2024-09-23",
+  "availabilities":[
     {
-      "date": "2024-10-29",
-      "timeslots": {
-        "10:00": [0, 10],
-        "10:30": [0, 20],
-        "11:00": [0, 25],
-        "11:30": [0, 23]
-      }
+      "date":"2024-09-18",
+      "timeslots":[
+        {
+          "timeslot":"11:00",
+          "minimum_seats_available":0,
+          "maximum_seats_available":20
+        },
+        {
+          "timeslot":"11:30",
+          "minimum_seats_available":0,
+          "maximum_seats_available":20
+        },
+        {
+          "timeslot":"12:00",
+          "minimum_seats_available":0,
+          "maximum_seats_available":20
+        }
+      ]
     },
     {
-      "date": "2024-10-30",
-      "timeslots": {
-        "10:00": [2, 20],
-        "10:30": [2, 12],
-        "11:00": [4, 23],
-        "11:30": [0, 20]
-      }
+      "date":"2024-09-18",
+      "timeslots":[
+        {
+          "timeslot":"11:00",
+          "minimum_seats_available":0,
+          "maximum_seats_available":20
+        },
+        {
+          "timeslot":"11:30",
+          "minimum_seats_available":0,
+          "maximum_seats_available":20
+        },
+        {
+          "timeslot":"12:00",
+          "minimum_seats_available":0,
+          "maximum_seats_available":20
+        }
+      ]
     }
   ]
 }
-
 ```
 
 This endpoint retrieves the availability for a specific restaurant over a given date range.
@@ -264,7 +282,7 @@ This endpoint retrieves the availability for a specific restaurant over a given 
 | --------------- | -------- | ------------------------------------------------ |
 | from            | today    | Start date for availability (format: YYYY-MM-DD) |
 | till            | tomorrow | End date for availability (format: YYYY-MM-DD)   |
-| restaurantUid\* |          | The unique identifier of the restaurant          |
+| restaurantUid\* |          | The unique id of the restaurant                  |
 
 ### Response Structure
 
@@ -286,31 +304,31 @@ Each availability object contains:
 ## Get Reservation
 
 ```shell
-curl "https://gotable.app/api/v1/restaurants/129946/booking/12345" \
+curl "https://gotable.app/api/v1/restaurants/<restaurantUid>/reservations/<reservationUid>" \
   -H "Authorization: Bearer YOUR_API_KEY_HERE"
 ```
 
-This endpoint retrieves information about a specific booking.
+This endpoint retrieves information about a specific reservation.
 
 ### HTTP Request
 
-`GET https://gotable.app/api/v1/<restaurantUid>/reservation/<uid>`
+`GET https://gotable.app/api/v1/<restaurantUid>/reservation/<reservationUid>`
 
 ### URL Parameters
 
-| Parameter       | Description                             |
-| --------------- | --------------------------------------- |
-| restaurantUid\* | The unique identifier of the restaurant |
-| uid\*           | The unique identifier of the booking    |
+| Parameter        | Description                      |
+| ---------------- | -------------------------------- |
+| restaurantUid\*  | The unique id of the restaurant  |
+| reservationUid\* | The unique id of the reservation |
 
-## Create Booking
+## Create Reservation
 
 ```shell
-curl -X POST "https://gotable.app/api/v1/restaurants/129946/booking" \
+curl -X POST "https://gotable.app/api/v1/restaurants/<restaurantUid>/reservations" \
   -H "Authorization: Bearer YOUR_API_KEY_HERE" \
   -H "Content-Type: application/json" \
   -d '{
-    "booking": {
+    "reservation": {
       "date": "2024-11-01",
       "time": "19:00",
       "party_size": 4,
@@ -321,63 +339,96 @@ curl -X POST "https://gotable.app/api/v1/restaurants/129946/booking" \
   }'
 ```
 
-This endpoint creates a new booking for the restaurant.
+This endpoint creates a new reservation for the restaurant.
 
 ### HTTP Request
 
-`POST https://gotable.app/api/v1/<restaurantUid>/booking`
+`POST https://gotable.app/api/v1/<restaurantUid>/reservations`
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "id":3042496,
+  "customer_name":"John Doe",
+  "customer_email":"customer@example.com",
+  "date":"2024-11-01",
+  "time":"19:00",
+  "guests":4,
+  "state":"pending",
+  "restaurant_id":129946
+}
+
+```
+
 
 ### URL Parameters
 
-| Parameter       | Description                             |
-| --------------- | --------------------------------------- |
-| restaurantUid\* | The unique identifier of the restaurant |
+| Parameter       | Description                     |
+| --------------- | ------------------------------- |
+| restaurantUid\* | The unique id of the restaurant |
 
-## Update Booking
+## Update Reservation
 
 ```shell
-curl -X PUT "https://gotable.app/api/v1/restaurants/129946/booking/12345" \
+curl -X PUT "https://gotable.app/api/v1/restaurants/129946/reservations/12345" \
   -H "Authorization: Bearer YOUR_API_KEY_HERE" \
   -H "Content-Type: application/json" \
   -d '{
-    "booking": {
-      "party_size": 5
+    "reservation": {
+      "guests: 5
     }
   }'
 ```
 
-This endpoint updates the details of a reservation.
+This endpoint updates the details of a reservation. #TODO
 
 ### HTTP Request
 
-`PUT https://gotable.app/api/v1/<restaurantUid>/booking/<uid>`
+`PUT https://gotable.app/api/v1/<restaurantUid>/reservation/<uid>`
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "id":3042496,
+  "customer_name":"John Doe",
+  "customer_email":"customer@example.com",
+  "date":"2024-11-01",
+  "time":"19:00",
+  "guests":5,
+  "state":"pending",
+  "restaurant_id":129946
+}
+
+```
 
 ### URL Parameters
 
-| Parameter       | Description                             |
-| --------------- | --------------------------------------- |
-| restaurantUid\* | The unique identifier of the restaurant |
-| uid\*           | The unique identifier of the booking    |
+| Parameter       | Description                      |
+| --------------- | -------------------------------- |
+| restaurantUid\* | The unique id of the restaurant  |
+| uid\*           | The unique id of the reservation |
 
 ## Cancel Reservation
 
 ```shell
-curl -X DELETE "https://gotable.app/api/v1/restaurants/<restaurantUid>/reservation/<reservationUid>" \
+curl -X DELETE "https://gotable.app/api/v1/restaurants/<restaurantUid>/reservations/<reservationUid>" \
   -H "Authorization: Bearer YOUR_API_KEY_HERE"
 ```
 
-This endpoint cancels a reservation.
+This endpoint cancels a reservation. #TODO
 
 ### HTTP Request
 
-`DELETE https://gotable.app/api/v1/<restaurantUid>/booking/<uid>`
+`DELETE https://gotable.app/api/v1/<restaurantUid>/reservation/<uid>`
 
 ### URL Parameters
 
-| Parameter       | Description                             |
-| --------------- | --------------------------------------- |
-| restaurantUid\* | The unique identifier of the restaurant |
-| uid\*           | The unique identifier of the booking    |
+| Parameter       | Description                      |
+| --------------- | -------------------------------- |
+| restaurantUid\* | The unique id of the restaurant  |
+| uid\*           | The unique id of the reservation |
 
 # Tables
 
@@ -396,23 +447,6 @@ This endpoint retrieves the list of tables for a restaurant.
 
 ### URL Parameters
 
-| Parameter       | Description                             |
-| --------------- | --------------------------------------- |
-| restaurantUid\* | The unique identifier of the restaurant |
-
-# Errors
-
-The GoTable API uses the following error codes:
-
-| Error Code | Meaning                                                                                   |
-| ---------- | ----------------------------------------------------------------------------------------- |
-| 400        | Bad Request -- Your request is invalid.                                                   |
-| 401        | Unauthorized -- Your API key is wrong.                                                    |
-| 403        | Forbidden -- The requested resource is not accessible to you.                             |
-| 404        | Not Found -- The specified resource could not be found.                                   |
-| 405        | Method Not Allowed -- You tried to access a resource with an invalid method.              |
-| 406        | Not Acceptable -- You requested a format that isn't json.                                 |
-| 410        | Gone -- The resource requested has been removed from our servers.                         |
-| 429        | Too Many Requests -- You're requesting too many resources! Slow down!                     |
-| 500        | Internal Server Error -- We had a problem with our server. Try again later.               |
-| 503        | Service Unavailable -- We're temporarily offline for maintenance. Please try again later. |
+| Parameter       | Description                     |
+| --------------- | ------------------------------- |
+| restaurantUid\* | The unique id of the restaurant |
