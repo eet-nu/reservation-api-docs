@@ -1,4 +1,3 @@
-
 # Reservations
 
 ## Get Reservation
@@ -8,6 +7,10 @@ curl "https://gotable.app/api/v1/restaurants/<restaurantUid>/reservations/<reser
   -H "Authorization: Bearer YOUR_API_KEY_HERE"
 ```
 
+```ruby
+api = GoTableAPI::API.new(api_key: 'YOUR_API_KEY_HERE')
+reservation = api.reservations(restaurantUid).get(reservationUid)
+```
 This endpoint retrieves information about a specific reservation. Linked to a restaurant that is registered to your API Key.
 
 ### HTTP Request
@@ -40,10 +43,20 @@ curl -X POST "https://gotable.app/api/v1/restaurants/<restaurantUid>/reservation
   }'
 ```
 
+```ruby
+api = GoTableAPI::API.new(api_key: 'YOUR_API_KEY_HERE')
+reservation = api.reservations(restaurantUid).create(
+  date: '2024-12-01',
+  time: '19:00',
+  guests: 4,
+  customer_name: 'John Doe',
+  customer_email: 'john@example.com'
+)
+```
+
 This endpoint creates a new reservation for the restaurant. You can create a reservation for a restaurant that is registered to your API Key.
 When the type is not provided, the reservation will be created as a normal reservation. If you want to create a walk-in reservation, you can provide the type as "WalkIn".
 A walk-in reservation is a reservation that is made by a customer that is already in the restaurant. For a walk-in reservation, the date and time of the reservation will be the current date and time as default.
-
 
 ### HTTP Request
 
@@ -64,7 +77,6 @@ A walk-in reservation is a reservation that is made by a customer that is alread
 }
 ```
 
-
 ### URL Parameters
 
 | Parameter       | Description                     |
@@ -79,11 +91,14 @@ curl -X PUT "https://gotable.app/api/v1/restaurants/129946/reservations/12345" \
   -H "Content-Type: application/json" \
   -d '{
     "reservation": {
-      "guests: 5
+      "guests": 5
     }
   }'
 ```
-
+```ruby
+api = GoTableAPI::API.new(api_key: 'YOUR_API_KEY_HERE')
+api.reservations(restaurantUid).update(reservationUid, { guests: 5 })
+```
 This endpoint updates the details of a reservation.
 
 ### HTTP Request
@@ -103,7 +118,6 @@ This endpoint updates the details of a reservation.
   "state":"pending",
   "restaurant_id":129946
 }
-
 ```
 
 ### URL Parameters
@@ -118,6 +132,11 @@ This endpoint updates the details of a reservation.
 ```shell
 curl -X PUT "https://gotable.app/api/v1/restaurants/<restaurantUid>/reservations/<reservationUid>" \
   -H "Authorization: Bearer YOUR_API_KEY_HERE"
+```
+
+```ruby
+api = GoTableAPI::API.new(api_key: 'YOUR_API_KEY_HERE')
+api.reservations(restaurantUid).cancel(reservationUid)
 ```
 
 This endpoint cancels a specific reservation.
