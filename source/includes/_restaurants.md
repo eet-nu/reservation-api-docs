@@ -7,71 +7,32 @@ curl "https://gotable.app/api/v1/restaurants" \
   -H "Authorization: Bearer YOUR_API_KEY_HERE"
 ```
 
+```ruby
+api = GoTableAPI::API.new(api_key: 'YOUR_API_KEY_HERE')
+restaurants = api.restaurants.list
+```
+
 > The above command returns JSON structured like this:
 
 ```json
 {
   "restaurants": [
     {
-      "id": 129946,
-      "name": "Restaurant name",
-      "telephone": "+31 6 23 45 67 89",
-      "email": "info@gotable.nl",
-      "street": "Brugstraat",
-      "zipcode": "6136 AC",
-      "street_number": "77",
-      "city": "geleen",
-      "country": "The Netherlands"
-    },
-    {
-      "id": 129947,
-      "name": "Another Restaurant",
-      "telephone": "+31 6 12 34 56 78",
-      "email": "info@anotherrestaurant.nl",
-      "street": "Main Street",
-      "zipcode": "1234 AB",
-      "city": "Amsterdam",
-      "country": "The Netherlands"
+      "id": 130170,
+      "name": "peterpannetje",
+      "telephone": "+31 6 28 79 68 88",
+      "email": "moreno@corputtij.nl",
+      "street": "Leliestraat 56",
+      "zipcode": "6134XE",
+      "city": "Geleen",
+      "country_code": "NL"
     }
   ],
   "meta": {
     "current_page": 1,
     "per_page": 20,
-    "total_pages": 5,
-    "total_count": 100
-  }
-}
-```
-```ruby
-{
-  "restaurants": [
-    {
-      "id": 129946,
-      "name": "Restaurant name",
-      "telephone": "+31 6 23 45 67 89",
-      "email": "info@gotable.nl",
-      "street": "Brugstraat",
-      "zipcode": "6136 AC",
-      "street_number": "77",
-      "city": "geleen",
-      "country": "The Netherlands"
-    },
-    {
-      "id": 129947,
-      "name": "Another Restaurant",
-      "telephone": "+31 6 12 34 56 78",
-      "email": "info@anotherrestaurant.nl",
-      "street": "Main Street",
-      "zipcode": "1234 AB",
-      "city": "Amsterdam",
-      "country": "The Netherlands"
-    }
-  ],
-  "meta": {
-    "current_page": 1,
-    "per_page": 20,
-    "total_pages": 5,
-    "total_count": 100
+    "total_pages": 1,
+    "total_count": 1
   }
 }
 ```
@@ -92,22 +53,27 @@ This endpoint retrieves all restaurants registered to your API Key.
 ## Get a Specific Restaurant
 
 ```shell
-curl "https://gotable.app/api/v1/restaurants/129946" \
+curl "https://gotable.app/api/v1/restaurants/<restaurantUid>" \
   -H "Authorization: Bearer YOUR_API_KEY_HERE"
+```
+
+```ruby
+api = GoTableAPI::API.new(api_key: 'YOUR_API_KEY_HERE')
+restaurant = api.restaurants.get(restaurantUid)
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
 {
-  "id": 129946,
-  "name": "Testorant",
-  "telephone": "+31 6 28 79 87 78",
-  "email": "John@doe.nl",
-  "street": "Brugstraat 77",
-  "zipcode": "6131 AC",
-  "city": "Sittard",
-  "country": "The Netherlands"
+  "id": 130170,
+  "name": "peterpannetje",
+  "telephone": "+31 6 28 79 68 88",
+  "email": "moreno@corputtij.nl",
+  "street": "Leliestraat 56",
+  "zipcode": "6134XE",
+  "city": "Geleen",
+  "country_code": "NL"
 }
 ```
 
@@ -145,26 +111,38 @@ curl -X POST "https://gotable.app/api/v1/restaurants" \
   }'
 ```
 
+```ruby
+api = GoTableAPI::API.new(api_key: 'YOUR_API_KEY_HERE')
+new_restaurant = api.restaurants.create(
+  name: 'New Restaurant',
+  telephone: '06 12 34 56 78',
+  email: 'info@newrestaurant.com',
+  street: 'john doe street',
+  zipcode: '1234AB',
+  city: 'Amsterdam',
+  reservation_follow_up_setting: 'always',
+  realtime_setting: 'availability',
+  realtime_reject_setting: 'accept',
+  country_code: 'NL'
+)
+```
+
 > The above command returns JSON structured like this:
 
 ```json
 {
-  "id": 129948,
+  "id": 130171,
   "name": "New Restaurant",
   "telephone": "+31 6 12 34 56 78",
   "email": "info@newrestaurant.com",
-  "private_feedback_url": "https://feedback.newrestaurant.com",
-  "reservation_follow_up_setting": "always",
-  "minimum_guests": 1,
-  "maximum_guests": 10,
-  "realtime_setting": "availability",
-  "realtime_reject_setting": "accept",
+  "street": "john doe street",
+  "zipcode": "1234AB",
+  "city": "Amsterdam",
   "country_code": "NL"
 }
 ```
 
 This endpoint creates a new restaurant. Creating a restaurant will automatically register this restaurant your api Key.
-
 
 ### HTTP Request
 
