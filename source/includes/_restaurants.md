@@ -19,12 +19,12 @@ restaurants = api.restaurants.list
   "restaurants": [
     {
       "id": 130170,
-      "name": "peterpannetje",
+      "name": "Test Restaurant",
       "telephone": "+31 6 28 79 68 88",
-      "email": "moreno@corputtij.nl",
-      "street": "Leliestraat 56",
-      "zipcode": "6134XE",
-      "city": "Geleen",
+      "email": "info@gotable.app",
+      "street": "Brugstraat 1",
+      "zipcode": "6131AC",
+      "city": "Sitard",
       "country_code": "NL"
     }
   ],
@@ -67,12 +67,12 @@ restaurant = api.restaurants.get(restaurantUid)
 ```json
 {
   "id": 130170,
-  "name": "peterpannetje",
+  "name": "Test Restaurant",
   "telephone": "+31 6 28 79 68 88",
-  "email": "moreno@corputtij.nl",
-  "street": "Leliestraat 56",
-  "zipcode": "6134XE",
-  "city": "Geleen",
+  "email": "info@gotable.app",
+  "street": "Brugstraat 1",
+  "zipcode": "6131AC",
+  "city": "Sittard",
   "country_code": "NL"
 }
 ```
@@ -142,7 +142,11 @@ new_restaurant = api.restaurants.create(
 }
 ```
 
-This endpoint creates a new restaurant. Creating a restaurant will automatically register this restaurant your api Key.
+This endpoint creates a new restaurant. Creating a restaurant will automatically register this restaurant your api Key. 
+
+<aside class="notice">
+  This functionality is only available for GoTable partners. Ask our support team for more information at info@gotable.app 
+</aside>
 
 ### HTTP Request
 
