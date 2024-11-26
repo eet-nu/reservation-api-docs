@@ -1,57 +1,61 @@
-
 # Availability
 
 ## Get Restaurant Availability
 
 ```shell
-curl "https://gotable.app/api/v1/restaurants/129946/availability?from=2024-10-29&till=2024-11-01" \
+curl "https://gotable.app/api/v1/restaurants/<restaurantUid>/availability?from=2024-10-29&till=2024-11-01" \
   -H "Authorization: Bearer YOUR_API_KEY_HERE"
+```
+
+```ruby
+api = GoTableAPI::API.new(api_key: 'YOUR_API_KEY_HERE')
+availability = api.restaurants(restaurantUid).availability(from: '2024-10-29', till: '2024-11-01')
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
 {
-  "from":"2024-09-18",
-  "till":"2024-09-23",
-  "availabilities":[
+  "from": "2024-09-18",
+  "till": "2024-09-23",
+  "availabilities": [
     {
-      "date":"2024-09-18",
-      "timeslots":[
+      "date": "2024-09-18",
+      "timeslots": [
         {
-          "timeslot":"11:00",
-          "min":0,
-          "max":20
+          "timeslot": "11:00",
+          "min": 0,
+          "max": 20
         },
         {
-          "timeslot":"11:30",
-          "min":0,
-          "max":20
+          "timeslot": "11:30",
+          "min": 0,
+          "max": 20
         },
         {
-          "timeslot":"12:00",
-          "min":0,
-          "max":20
+          "timeslot": "12:00",
+          "min": 0,
+          "max": 20
         }
       ]
     },
     {
-      "date":"2024-09-18",
-      "timeslots":[
+      "date": "2024-09-18",
+      "timeslots": [
         {
-          "timeslot":"11:00",
-          "min":0,
-          "max":20
+          "timeslot": "11:00",
+          "min": 0,
+          "max": 20
         },
         {
-          "timeslot":"11:30",
-          "min":0,
-          "max":20
+          "timeslot": "11:30",
+          "min": 0,
+          "max": 20
         },
         {
-          "timeslot":"12:00",
-          "min":0,
-          "max":20
+          "timeslot": "12:00",
+          "min": 0,
+          "max": 20
         }
       ]
     }
@@ -90,6 +94,7 @@ The response includes the following main elements:
 Each availability object contains:
 
 -   `date`: The date for this availability entry
--   `timeslots`: An object where each key is a time slot (in "HH:MM" format) and each value is an array with two elements:
-    -   The first element is the minimum number of seats available
-    -   The second element is the maximum number of seats available
+-   `timeslots`: An array of time slot objects, where each object contains:
+    -   `timeslot`: The time in "HH:MM" format
+    -   `min`: The minimum number of seats available at this time
+    -   `max`: The maximum number of seats available at this time
