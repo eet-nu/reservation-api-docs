@@ -17,8 +17,8 @@ reservation = api.reservations(restaurantUid).get(reservationUid)
 ```json
 {
   "id": 3781341,
-  "customer_name": "John Doe",
-  "customer_email": "john@example.com",
+  "guest_name": "John Doe",
+  "guest_email": "john@example.com",
   "date": "2024-12-01",
   "time": "19:00",
   "guests": 4,
@@ -51,9 +51,9 @@ curl -X POST "https://gotable.app/api/v1/restaurants/<restaurantUid>/reservation
       "date": "2024-11-01",
       "time": "19:00",
       "party_size": 4,
-      "customer_name": "John Doe",
-      "customer_email": "john@example.com",
-      "customer_phone": "+31612345678",
+      "guest_name": "John Doe",
+      "guest_email": "john@example.com",
+      "guest_phone": "+31612345678",
       "type": "WalkIn" # if its a normal reservation, you can leave this field out
     }
   }'
@@ -65,8 +65,8 @@ reservation = api.reservations(restaurantUid).create(
   date: '2024-12-01',
   time: '19:00',
   guests: 4,
-  customer_name: 'John Doe',
-  customer_email: 'john@example.com'
+  guest_name: 'John Doe',
+  guest_email: 'john@example.com'
 )
 ```
 
@@ -75,8 +75,8 @@ reservation = api.reservations(restaurantUid).create(
 ```json
 {
   "id": 3781341,
-  "customer_name": "John Doe",
-  "customer_email": "john@example.com",
+  "guest_name": "John Doe",
+  "guest_email": "john@example.com",
   "date": "2024-12-01",
   "time": "19:00",
   "guests": 4,
@@ -85,9 +85,25 @@ reservation = api.reservations(restaurantUid).create(
 }
 ```
 
-This endpoint creates a new reservation for the restaurant. You can create a reservation for a restaurant that is registered to your API Key.
-When the type is not provided, the reservation will be created as a normal reservation. If you want to create a walk-in reservation, you can provide the type as "WalkIn".
-A walk-in reservation is a reservation that is made by a customer that is already in the restaurant. For a walk-in reservation, the date and time of the reservation will be the current date and time as default.
+Creates a new reservation for your restaurant. Your API key must be registered to the restaurant.
+
+### Required Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| guest_name | string | Customer's name |
+| guest_mobile | string | Customer's phone number |
+| guest_email | string | Customer's email address |
+| guests | integer | Number of guests |
+| duration_in_minutes | integer | Length of reservation in minutes |
+
+### Optional Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| date | string | Reservation date (YYYY-MM-DD). Required for regular reservations |
+| time | string | Reservation time (HH:MM). Required for regular reservations |
+| type | string | Set to "WalkIn" for walk-in reservations (current customers). For walk-ins, date/time default to current if not provided. Omit for regular reservations |
 
 ### HTTP Request
 
@@ -122,8 +138,8 @@ api.reservations(restaurantUid).update(reservationUid, { guests: 5 })
 ```json
 {
   "id":3042496,
-  "customer_name":"John Doe",
-  "customer_email":"customer@example.com",
+  "guest_name":"John Doe",
+  "guest_email":"customer@example.com",
   "date":"2024-11-01",
   "time":"19:00",
   "guests":5,
@@ -162,8 +178,8 @@ api.reservations(restaurantUid).cancel(reservationUid)
 ```json
 {
   "id": 3781341,
-  "customer_name": "John Doe",
-  "customer_email": "john@example.com",
+  "guest_name": "John Doe",
+  "guest_email": "john@example.com",
   "date": "2024-12-01",
   "time": "19:00",
   "guests": 5,
